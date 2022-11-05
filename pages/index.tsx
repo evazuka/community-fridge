@@ -38,14 +38,14 @@ const Home = () => {
         <VStack spacing='24px' mt='12px'>
           <Heading>Hello, {session.user.email}</Heading>
           <Flex>
-            <Box m='4' p='16' borderWidth='1px' borderRadius='lg' cursor='pointer' onClick={() => router.push('/share')}>
-              <FontAwesomeIcon icon={faHandHoldingHeart} />
-              <Heading size='sm'>Share</Heading>
+            <Box m='4' p='16' borderWidth='1px' borderRadius='lg' textAlign='center' cursor='pointer' onClick={() => router.push('/share')}>
+              <FontAwesomeIcon icon={faHandHoldingHeart} size="6x"/>
+              <Heading size='sm' paddingTop='5'>Share</Heading>
             </Box>
             <Spacer />
-            <Box m='4' p='16' borderWidth='1px' borderRadius='lg' cursor='pointer' onClick={() => router.push('/take')}>
-              <FontAwesomeIcon icon={faHandshake} />
-              <Heading size='sm'>Take</Heading>
+            <Box m='4' p='16' borderWidth='1px' borderRadius='lg' textAlign='center' cursor='pointer' onClick={() => router.push('/take')}>
+              <FontAwesomeIcon icon={faHandshake} size="6x"/>
+              <Heading size='sm' paddingTop='5'>Take</Heading>
             </Box>
           </Flex>
         </VStack>
