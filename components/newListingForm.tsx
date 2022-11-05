@@ -20,8 +20,8 @@ export const NewListingForm = () => {
       }
 
       let { data, error } = await supabase.from('listings').insert(inserts)
-      console.log(data)
-      console.log(error)
+      if (error) throw error
+      setLoading(false)
     } catch (e) {
 
     }
@@ -36,6 +36,7 @@ export const NewListingForm = () => {
         mt={4}
         px='10'
         onClick={() => submit(name, description)}
+        isLoading={loading}
       >
         Submit
       </Button>
