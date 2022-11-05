@@ -53,7 +53,7 @@ export const UploadImage = ({ onUpload }: Props) => {
       {imageUrl ? (
         <div style={{ display: 'flex' }}>
           <Image url={imageUrl} onDownload={() => { }} />
-          <div className="avatar no-image" style={{ marginLeft: '10px' }}><input><p>+</p></input></div>
+          <div className="avatar no-image" style={{ marginLeft: '10px' }}><p>+</p></div>
         </div>
       ) : (
         <div {...getRootProps()} className="avatar no-image">
