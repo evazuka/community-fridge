@@ -1,7 +1,6 @@
 import { Auth, ThemeSupa } from '@supabase/auth-ui-react'
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 import { useEffect, useState } from 'react'
-import { UploadImage } from '../components/uploadImage'
 
 const Home = () => {
   const session = useSession()
@@ -31,7 +30,6 @@ const Home = () => {
       <>
         <div>Hello, {session.user.email}</div>
         <div>{data.map(x => JSON.stringify(x)).join('')}</div>
-        <div><UploadImage url={null} /></div>
       </>
     </div>
   )
