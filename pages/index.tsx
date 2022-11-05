@@ -1,7 +1,7 @@
 import { Auth, ThemeSupa } from '@supabase/auth-ui-react'
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 import { useEffect, useState } from 'react'
-import { UploadImage } from './uploadImage'
+import { UploadImage } from '../components/uploadImage'
 
 const Home = () => {
   const session = useSession()
@@ -10,7 +10,7 @@ const Home = () => {
 
   useEffect(() => {
     getData()
-  })
+  }, [])
 
   const getData = async () => {
     try {

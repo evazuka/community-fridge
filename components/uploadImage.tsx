@@ -1,6 +1,7 @@
 import { useSupabaseClient } from "@supabase/auth-helpers-react"
 import { useEffect, useState } from "react"
 import { v4 as uuidv4 } from 'uuid'
+import { Image } from './image'
 
 type Props = {
   url: string | null
@@ -12,24 +13,6 @@ export const UploadImage = ({ url }: Props) => {
   const [uploading, setUploading] = useState(false)
   const [id, setId] = useState<string | null>(null)
   const [imageUrl, setImageUrl] = useState<string | null>(null)
-
-  useEffect(() => {
-    if (url) downloadImage(url)
-  }, [url])
-
-  const downloadImage = async (path: string) => {
-    try {
-      const { data, error } = await supabase.storage.from('images').download(path)
-      if (error) {
-        throw error
-      }
-      const url = URL.createObjectURL(data)
-      setImageUrl(url)
-    } catch (error) {
-      console.log('Error downloading image: ', error)
-    }
-  }
-
 
   const uploadAvatar: React.ChangeEventHandler<HTMLInputElement> = async (event) => {
     try {
@@ -54,6 +37,7 @@ export const UploadImage = ({ url }: Props) => {
 
       //onUpload(filePath)
       setId(id)
+      setImageUrl(fileName)
       console.log(fileName)
     } catch (error) {
       alert('Error uploading avatar!')
@@ -66,12 +50,7 @@ export const UploadImage = ({ url }: Props) => {
   return <>
     <div>
       {imageUrl ? (
-        <img
-          src={imageUrl}
-          alt="Image"
-          className="image"
-          style={{ height: 100, width: 100 }}
-        />
+        <Image url={imageUrl} />
       ) : (
         <div className="avatar no-image" style={{ height: 100, width: 100 }} />
       )}

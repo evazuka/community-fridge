@@ -5,6 +5,8 @@ type Props = {
   url: string | null
 }
 
+const urlPrefix = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/images/`
+
 export const Image = ({ url }: Props) => {
   const supabase = useSupabaseClient()
 
@@ -26,6 +28,13 @@ export const Image = ({ url }: Props) => {
       console.log('Error downloading image: ', error)
     }
   }
+
+  return <img
+    src={imageUrl}
+    alt="iamge"
+    className="image"
+    style={{ height: 100, width: 100 }}
+  />
 }
 
 export default Image
