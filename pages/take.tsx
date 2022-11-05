@@ -2,7 +2,7 @@ import { Container } from "@chakra-ui/react"
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react"
 import { Auth, ThemeSupa } from "@supabase/auth-ui-react"
 import NavBar from "../components/navbar"
-import UserListings from "../components/userListings"
+import AllListings from "../components/allListings"
 
 const Take = () => {
   const session = useSession()
@@ -15,7 +15,7 @@ const Take = () => {
       <NavBar />
       <Container>
         <div>Hello, {session.user.email}</div>
-        <UserListings />
+        <AllListings />
       </Container>
     </>
   )
