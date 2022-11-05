@@ -33,18 +33,18 @@ const Home = () => {
 
   return (
     <>
-      <NavBar />
+      <NavBar address='' />
       <Container>
         <VStack spacing='24px' mt='12px'>
           <Heading>Hello, {session.user.email}</Heading>
           <Flex>
             <Box m='4' p='16' borderWidth='1px' borderRadius='lg' textAlign='center' cursor='pointer' onClick={() => router.push('/share')}>
-              <FontAwesomeIcon icon={faHandHoldingHeart} size="6x"/>
+              <FontAwesomeIcon icon={faHandHoldingHeart} size="6x" />
               <Heading size='sm' paddingTop='5'>Share</Heading>
             </Box>
             <Spacer />
             <Box m='4' p='16' borderWidth='1px' borderRadius='lg' textAlign='center' cursor='pointer' onClick={() => router.push('/take')}>
-              <FontAwesomeIcon icon={faHandshake} size="6x"/>
+              <FontAwesomeIcon icon={faHandshake} size="6x" />
               <Heading size='sm' paddingTop='5'>Take</Heading>
             </Box>
           </Flex>

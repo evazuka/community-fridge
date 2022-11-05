@@ -2,7 +2,7 @@ import { Flex } from "@chakra-ui/react"
 import Link from "next/link"
 
 type Props = {
-  address: string
+  address: string | null
 }
 
 const NavBar = ({ address }: Props) => {
