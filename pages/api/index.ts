@@ -2,26 +2,53 @@ import { NextApiRequest, NextApiResponse } from "next"
 
 type Data = {}
 
-const woltApi = `https://daas-public-api.development.dev.woltapi.com/merchants/${process.env.WOLT_MERCHANT_ID}/delivery-order`
+const woltApi = `https://daas-public-api.development.dev.woltapi.com/merchants/${process.env.WOLT_MERCHANT_ID}`
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  const response = await fetch(woltApi, {
-    method: "POST",
-    body: JSON.stringify(createRequest()),
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${process.env.WOLT_API_TOKEN_KEY}`,
-    },
-  })
-  const data = await response.json()
+  if (req.method === "POST") {
+    const response = await fetch(woltApi + "/delivery-order", {
+      method: "POST",
+      body: JSON.stringify(createOrderRequest()),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${process.env.WOLT_API_TOKEN_KEY}`,
+      },
+    })
+    const data = await response.json()
 
-  res.status(200).json(data)
+    res.status(200).json(data)
+  } else if (req.method === "GET") {
+    const response = await fetch(woltApi + "/delivery-fee", {
+      method: "POST",
+      body: JSON.stringify(createFeeRequest()),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${process.env.WOLT_API_TOKEN_KEY}`,
+      },
+    })
+    const data = await response.json()
+
+    res.status(200).json(data)
+  }
 }
 
-const createRequest = () => ({
+const createFeeRequest = () => ({
+  pickup: {
+    location: {
+      formatted_address: "Arkadiankatu 3-6",
+    },
+  },
+  dropoff: {
+    location: {
+      formatted_address: "Otakaari 24, 02150 Espoo",
+    },
+  },
+})
+
+const createOrderRequest = () => ({
   pickup: {
     location: {
       formatted_address: "Arkadiankatu 3-6",

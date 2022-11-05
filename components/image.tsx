@@ -5,9 +5,11 @@ import NextImage from 'next/image'
 
 type Props = {
   url: string | null
+  onDownload: (downloadedPath: string) => void
+  clickable?: boolean
 }
 
-export const Image = ({ url }: Props) => {
+export const Image = ({ url, onDownload, clickable = false }: Props) => {
   const supabase = useSupabaseClient()
   const { isOpen, onOpen, onClose } = useDisclosure()
 
@@ -25,17 +27,30 @@ export const Image = ({ url }: Props) => {
       }
       const url = URL.createObjectURL(data)
       setImageUrl(url)
+      onDownload(url)
     } catch (error) {
       console.log('Error downloading image: ', error)
     }
   }
 
-  return <><img
+  if (imageUrl === null) return <NextImage
+    src="https://via.placeholder.com/100?text=?"
+    alt="image"
+    className="image"
+    width={100}
+    height={100}
+    style={{ maxHeight: 100, objectFit: 'cover' }}
+    onClick={onOpen}
+  />
+
+  return <><NextImage
     src={imageUrl}
     alt="iamge"
     className="image"
-    style={{ height: 100, width: 100 }}
-    onClick={onOpen}
+    width={100}
+    height={100}
+    style={{ maxHeight: 100, objectFit: 'cover' }}
+    onClick={() => clickable && onOpen()}
   />
     <Modal blockScrollOnMount={false} isOpen={isOpen} onClose={onClose} size='xl'>
       <ModalOverlay />

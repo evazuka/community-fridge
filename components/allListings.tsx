@@ -1,7 +1,9 @@
-import { Box, Button, Grid, GridItem, Heading, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure } from "@chakra-ui/react"
+import { Box, Button, Grid, GridItem, Heading, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Skeleton, Stack, useDisclosure, VStack } from "@chakra-ui/react"
 import { useSupabaseClient } from "@supabase/auth-helpers-react"
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { Image } from './image'
+import NextImage from 'next/image'
+import CalculatedPrice from "./calculatedPrice"
 
 export const AllListings = () => {
   const supabase = useSupabaseClient()
@@ -34,24 +36,42 @@ export const AllListings = () => {
 
 }
 
+function randomIntFromInterval(min: number, max: number) { // min and max included 
+  return Math.floor(Math.random() * (max - min + 1) + min)
+}
+
 export const Listing = ({ name, description, imageUrl }: { name: string, description: string, imageUrl: string | undefined }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [isLoading, setLoading] = useState(false)
+  const [priceLoading, setPriceLoading] = useState(true)
+  const [imagePath, setImagePath] = useState<string | null>(null)
 
-  const fetchData = async () => {
-    return
-    const response = await fetch('/api')
-    const data = await response.json()
-    console.log(data)
+  const price = useMemo(() => randomIntFromInterval(100, 500) / 100, [])
+
+  const placeOrder = async () => {
+    setLoading(true)
+    try {
+      const response = await fetch('/api', { method: 'POST' })
+      const data = await response.json()
+      const trackingUrl = data['tracking']['url']
+      console.log(trackingUrl)
+    } catch (e) {
+      console.error(e)
+    } finally {
+      setLoading(false)
+    }
   }
 
   return <>
-    <Box my='4' px='2' py='2' borderWidth='1px' borderRadius='lg'>
+    <Box my='4' px='2' py='2' onClick={() => {
+      onOpen()
+      setPriceLoading(true)
+    }} cursor='pointer'
+      className="card">
       <Grid
         templateAreas={`"header image"
-                  "description image"
-                  "button image"`}
-        gridTemplateRows='repeat(3, 1fr)'
+                  "description image"`}
+        gridTemplateRows='repeat(2, 1fr)'
         gridTemplateColumns='1fr minmax(100px, 100px)'
         h='100px'
       >
@@ -63,7 +83,7 @@ export const Listing = ({ name, description, imageUrl }: { name: string, descrip
         </GridItem>
         <GridItem area={'image'} width='100px'>
           {imageUrl
-            ? <Image url={imageUrl} />
+            ? <Image url={imageUrl} onDownload={setImagePath} />
             : <img
               src='https://via.placeholder.com/100?text=?'
               alt="image"
@@ -71,23 +91,35 @@ export const Listing = ({ name, description, imageUrl }: { name: string, descrip
               style={{ height: 100, width: 100 }}
             />}
         </GridItem>
-        <GridItem area={'button'}>
-          <Button onClick={onOpen}>want this!</Button>
-        </GridItem>
       </Grid>
     </Box>
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Order Item</ModalHeader>
+        <ModalHeader>{name}</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          Yo
+          <VStack alignItems='start'>
+            <Box>
+              {imageUrl && <NextImage alt="image" src={imagePath!} width='400' height='100' style={{ maxHeight: '300px', objectFit: 'cover' }} />}
+            </Box>
+            <Box>
+              <CalculatedPrice price={price} onLoaded={() => setPriceLoading(false)} />
+            </Box>
+            <Box>
+              {description}
+            </Box>
+          </VStack>
         </ModalBody>
 
         <ModalFooter alignItems='end'>
-          <Button isLoading={isLoading} mr={3} onClick={() => setLoading(true)} background='#009DE0' color='white' _hover={{ background: '#14A5E2' }}>
-            Order now
+          <Button isLoading={isLoading} mr={3} onClick={placeOrder} background='#009DE0' _hover={{ background: '#14A5E2' }}>
+            <Stack direction='row' spacing={16}>
+              <Box color='white'>Order now</Box>
+              <Box color='white'><Skeleton isLoaded={!priceLoading} display='inline-block'>
+                <span><strong style={{ color: "white" }}>€{price}</strong></span>
+              </Skeleton></Box>
+            </Stack>
           </Button>
         </ModalFooter>
       </ModalContent>
