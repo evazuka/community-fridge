@@ -16,7 +16,6 @@ const Share = () => {
     <>
       <NavBar address="Otakaari 24, 02150 Espoo" />
       <Container>
-        <div>Hello, {session.user.email}</div>
         <UserListings />
       </Container>
     </>

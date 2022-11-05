@@ -1,5 +1,6 @@
 import { Flex } from "@chakra-ui/react"
-import Link from "next/link"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faLocationDot } from '@fortawesome/free-solid-svg-icons'
 
 type Props = {
   address: string | null
@@ -19,8 +20,8 @@ const NavBar = ({ address }: Props) => {
       borderBottom="1px solid rgb(226, 232, 240)"
       boxShadow='0px 0px 40px rgba(0, 0, 0, 0.10)'
     >
-      <Link href='/'><strong>Community Fridge</strong></Link>
-      <span>{address}</span>
+      <strong>Community Fridge</strong>
+      <span><FontAwesomeIcon icon={faLocationDot} style={{marginRight: '4px', width: '20px'}}/>Otakaari 24, 02150 Espoo</span>
     </Flex>
   )
 }
