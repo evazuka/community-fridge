@@ -19,7 +19,6 @@ body {
 }
 
 * {
-  color: var(--custom-color);
   font-family: var(--custom-font-family);
   box-sizing: border-box;
 }
@@ -227,12 +226,28 @@ button,
   background-color: var(--custom-bg-color);
 }
 
+.heartbeat {
+	-webkit-animation: heartbeat 1.5s ease-in-out infinite both;
+	        animation: heartbeat 1.5s ease-in-out infinite both;
+}
+
 /* Widgets */
 
 .card {
   border: 1px solid transparent;
   border-bottom: 1px solid rgb(226, 232, 240);
   transition: border ease-out 0.2s, box-shadow ease-out 0.2s;
+}
+
+.amazing {
+  border: 1px solid transparent;
+  transition: border ease-out 0.2s, box-shadow ease-out 0.2s;
+}
+
+.amazing:hover {
+  border-color: rgb(226, 232, 240);
+  border-radius: 4px;
+  box-shadow:  0px 0px 80px rgba(0, 0, 0, 0.07);
 }
 
 .card:hover {
@@ -245,6 +260,12 @@ button,
   border-radius: var(--custom-border-radius);
   overflow: hidden;
   max-width: 100%;
+  width: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }
 .avatar.image {
   object-fit: cover;
@@ -253,6 +274,10 @@ button,
   background-color: rgb(226, 226, 226);
   border: 1px solid rgb(200, 200, 200);
   border-radius: 5px;
+}
+
+.avatar p {
+  font-size: xx-large;
 }
 
 .footer {

@@ -1,4 +1,4 @@
-import { Container } from "@chakra-ui/react"
+import { Container, Text } from "@chakra-ui/react"
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react"
 import { Auth, ThemeSupa } from "@supabase/auth-ui-react"
 import { useEffect } from "react"

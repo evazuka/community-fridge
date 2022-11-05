@@ -2,6 +2,7 @@ import { useSupabaseClient } from "@supabase/auth-helpers-react"
 import { useCallback, useEffect, useState } from "react"
 import { v4 as uuidv4 } from 'uuid'
 import { Image } from './image'
+import { useDropzone } from 'react-dropzone'
 
 type Props = {
   onUpload: (imageUrl: string) => void
@@ -14,16 +15,13 @@ export const UploadImage = ({ onUpload }: Props) => {
   const [id, setId] = useState<string | null>(null)
   const [imageUrl, setImageUrl] = useState<string | null>(null)
 
-  const uploadAvatar: React.ChangeEventHandler<HTMLInputElement> = useCallback(async (event) => {
+  const uploadAvatar = useCallback(async (files: File[]) => {
     console.log(onUpload)
     try {
       setUploading(true)
 
-      if (!event.target.files || event.target.files.length === 0) {
-        throw new Error('You must select an image to upload.')
-      }
       const id = uuidv4()
-      const file = event.target.files[0]
+      const file = files[0]
       const fileExt = file.name.split('.').pop()
       const fileName = `${uuidv4()}.${fileExt}`
       const filePath = `${fileName}`
@@ -48,29 +46,25 @@ export const UploadImage = ({ onUpload }: Props) => {
     }
   }, [setId, setImageUrl, onUpload, supabase.storage])
 
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop: uploadAvatar })
+
   return <>
     <div>
       {imageUrl ? (
-        <Image url={imageUrl} />
+        <div style={{ display: 'flex' }}>
+          <Image url={imageUrl} onDownload={() => { }} />
+          <div className="avatar no-image" style={{ marginLeft: '10px' }}><input><p>+</p></input></div>
+        </div>
       ) : (
-        <div className="avatar no-image" style={{ height: 100, width: 100 }} />
+        <div {...getRootProps()} className="avatar no-image">
+          <input {...getInputProps()} />
+          {
+            isDragActive ?
+              <p>-</p> :
+              <p>+</p>
+          }
+        </div>
       )}
-      <div style={{ width: 100 }}>
-        <label className="button primary block" htmlFor="single">
-          {uploading ? 'Uploading ...' : 'Upload'}
-        </label>
-        <input
-          style={{
-            visibility: 'hidden',
-            position: 'absolute',
-          }}
-          type="file"
-          id="single"
-          accept="image/*"
-          onChange={uploadAvatar}
-          disabled={uploading}
-        />
-      </div>
     </div>
   </>
 }

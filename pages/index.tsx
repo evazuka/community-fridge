@@ -3,15 +3,18 @@ import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 import { useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHandHoldingHeart, faHandshake } from '@fortawesome/free-solid-svg-icons'
-import { Heading, Container, VStack, Flex, Box, Spacer, useRadio } from '@chakra-ui/react'
+import { Heading, Container, VStack, Flex, Box, Spacer, useRadio, Text } from '@chakra-ui/react'
 import NavBar from '../components/navbar'
 import { useRouter } from 'next/router'
+import { getUserName } from '../helpers'
 
 const Home = () => {
   const router = useRouter()
   const session = useSession()
   const supabase = useSupabaseClient()
   const [data, setData] = useState<any[]>([])
+  const [hoverL, setHoverL] = useState(false)
+  const [hoverR, setHoverR] = useState(false)
 
   useEffect(() => {
     getData()
@@ -36,16 +39,23 @@ const Home = () => {
       <NavBar address='' />
       <Container>
         <VStack spacing='24px' mt='12px'>
-          <Heading>Hello, {session.user.email}</Heading>
+          <Heading>Hello, <span style={{ color: '#009DE0' }}>{getUserName(session.user.email ?? '')}</span></Heading>
+          <Text fontSize='xl'>take what you need, leave what you can</Text>
           <Flex>
-            <Box m='4' p='16' borderWidth='1px' borderRadius='lg' textAlign='center' cursor='pointer' onClick={() => router.push('/share')}>
-              <FontAwesomeIcon icon={faHandHoldingHeart} size="6x" />
-              <Heading size='sm' paddingTop='5'>Share</Heading>
+            <Box
+              onMouseEnter={() => setHoverL(true)}
+              onMouseLeave={() => setHoverL(false)}
+              m='4' p='16' className='amazing' textAlign='center' cursor='pointer' onClick={() => router.push('/share')}>
+              <FontAwesomeIcon icon={faHandHoldingHeart} size="6x" beat={hoverL} color="#383838" />
+              <Heading size='md' paddingTop='5'>Share</Heading>
             </Box>
             <Spacer />
-            <Box m='4' p='16' borderWidth='1px' borderRadius='lg' textAlign='center' cursor='pointer' onClick={() => router.push('/take')}>
-              <FontAwesomeIcon icon={faHandshake} size="6x" />
-              <Heading size='sm' paddingTop='5'>Take</Heading>
+            <Box
+              onMouseEnter={() => setHoverR(true)}
+              onMouseLeave={() => setHoverR(false)}
+              m='4' p='16' className='amazing' textAlign='center' cursor='pointer' onClick={() => router.push('/take')}>
+              <FontAwesomeIcon icon={faHandshake} size="6x" beat={hoverR} color="#383838" />
+              <Heading size='md' paddingTop='5'>Take</Heading>
             </Box>
           </Flex>
         </VStack>
