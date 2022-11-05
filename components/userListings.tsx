@@ -40,7 +40,7 @@ export const UserListings = () => {
 export const Listing = ({ name, description, imageUrl }: { name: string, description: string, imageUrl: string | undefined }) => {
   return <Box my='4' px='16' py='4' borderWidth='1px' borderRadius='lg'>
     {imageUrl
-      ? <Image url={imageUrl} />
+      ? <Image url={imageUrl}  onDownload={() => {}}/>
       : <img
         src='https://via.placeholder.com/100?text=?'
         alt="image"
