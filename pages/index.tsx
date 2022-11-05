@@ -2,6 +2,8 @@ import { Auth, ThemeSupa } from '@supabase/auth-ui-react'
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 import { useEffect, useState } from 'react'
 import { Heading, Container, VStack } from '@chakra-ui/react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHandHoldingHeart, faHandshake } from '@fortawesome/free-solid-svg-icons'
 import NavBar from '../components/navbar'
 
 const Home = () => {
@@ -34,6 +36,8 @@ const Home = () => {
         <VStack spacing='24px' mt='12px'>
           <Heading>Hello, {session.user.email}</Heading>
           <div>{data.map(x => JSON.stringify(x)).join('')}</div>
+          <FontAwesomeIcon icon={faHandHoldingHeart} />
+          <FontAwesomeIcon icon={faHandshake} />
         </VStack>
       </Container>
     </>
