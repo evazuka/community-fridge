@@ -1,5 +1,7 @@
+import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure } from "@chakra-ui/react"
 import { useSupabaseClient } from "@supabase/auth-helpers-react"
 import { useEffect, useState } from "react"
+import NextImage from 'next/image'
 
 type Props = {
   url: string | null
@@ -7,6 +9,7 @@ type Props = {
 
 export const Image = ({ url }: Props) => {
   const supabase = useSupabaseClient()
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
   const [imageUrl, setImageUrl] = useState<string | null>(null)
 
@@ -27,12 +30,22 @@ export const Image = ({ url }: Props) => {
     }
   }
 
-  return <img
+  return <><img
     src={imageUrl}
     alt="iamge"
     className="image"
     style={{ height: 100, width: 100 }}
+    onClick={onOpen}
   />
+    <Modal blockScrollOnMount={false} isOpen={isOpen} onClose={onClose} size='xl'>
+      <ModalOverlay />
+      <ModalContent height='75%' background='transparent' boxShadow='none' onClick={onClose}>
+        <ModalBody>
+          <NextImage src={imageUrl!} alt='image' fill style={{ objectFit: 'contain' }} />
+        </ModalBody>
+      </ModalContent>
+    </Modal>
+  </>
 }
 
 export default Image
