@@ -1,6 +1,8 @@
 import { Auth, ThemeSupa } from '@supabase/auth-ui-react'
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 import { useEffect, useState } from 'react'
+import { Heading, Container, VStack } from '@chakra-ui/react'
+import NavBar from '../components/navbar'
 
 const Home = () => {
   const session = useSession()
@@ -26,12 +28,15 @@ const Home = () => {
   if (!session) return <Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} theme="dark" />
 
   return (
-    <div className="container" style={{ padding: '50px 0 100px 0' }}>
-      <>
-        <div>Hello, {session.user.email}</div>
-        <div>{data.map(x => JSON.stringify(x)).join('')}</div>
-      </>
-    </div>
+    <>
+      <NavBar />
+      <Container>
+        <VStack spacing='24px' mt='12px'>
+          <Heading>Hello, {session.user.email}</Heading>
+          <div>{data.map(x => JSON.stringify(x)).join('')}</div>
+        </VStack>
+      </Container>
+    </>
   )
 }
 
