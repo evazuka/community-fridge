@@ -42,13 +42,13 @@ export const Listing = ({ name, description, imageUrl }: { name: string, descrip
         console.log(data)
     }
 
-    return <Box my='4' px='16' py='4' borderWidth='1px' borderRadius='lg'>
+    return <Box my='4' px='2' py='2' borderWidth='1px' borderRadius='lg'>
         <Grid
             templateAreas={`"header image"
                   "description image"
                   "button image"`}
             gridTemplateRows='repeat(3, 1fr)'
-            gridTemplateColumns='repeat(2, 1fr)'
+            gridTemplateColumns='1fr minmax(100px, 100px)'
             h='100px'
         >
             <GridItem area={'header'}>
@@ -57,7 +57,7 @@ export const Listing = ({ name, description, imageUrl }: { name: string, descrip
             <GridItem area={'description'}>
                 {description}
             </GridItem>
-            <GridItem area={'image'}>
+            <GridItem area={'image'} width='100px'>
                 {imageUrl
                     ? <Image url={imageUrl} />
                     : <img
