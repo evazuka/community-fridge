@@ -1,6 +1,11 @@
 import { Flex } from "@chakra-ui/react"
+import Link from "next/link"
 
-const NavBar = ({ ...props }) => {
+type Props = {
+  address: string
+}
+
+const NavBar = ({ address }: Props) => {
   return (
     <Flex
       as="nav"
@@ -13,10 +18,9 @@ const NavBar = ({ ...props }) => {
       bg={["primary.500", "primary.500", "transparent", "transparent"]}
       borderBottom="1px solid rgb(226, 232, 240)"
       boxShadow='0px 0px 40px rgba(0, 0, 0, 0.10)'
-      {...props}
     >
-      <strong>Community Fridge</strong>
-      <span>📍Otakaari 24, 02150 Espoo</span>
+      <Link href='/'><strong>Community Fridge</strong></Link>
+      <span>{address}</span>
     </Flex>
   )
 }

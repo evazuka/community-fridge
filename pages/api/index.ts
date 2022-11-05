@@ -38,12 +38,12 @@ export default async function handler(
 const createFeeRequest = () => ({
   pickup: {
     location: {
-      formatted_address: "Arkadiankatu 3-6",
+      formatted_address: "Otakaari 24, 02150 Espoo",
     },
   },
   dropoff: {
     location: {
-      formatted_address: "Otakaari 24, 02150 Espoo",
+      formatted_address: "Arkadiankatu 3-6 3rd floor, 00100 Helsinki",
     },
   },
 })
@@ -51,21 +51,21 @@ const createFeeRequest = () => ({
 const createOrderRequest = () => ({
   pickup: {
     location: {
-      formatted_address: "Arkadiankatu 3-6",
+      formatted_address: "Otakaari 24, 02150 Espoo",
     },
     comment: "The box is in front of the door",
     contact_details: {
-      name: "John Doe",
+      name: "Dmitry",
       phone_number: "+358123456789",
       send_tracking_link_sms: false,
     },
   },
   dropoff: {
     location: {
-      formatted_address: "Otakaari 24, 02150 Espoo",
+      formatted_address: "Eteläinen Rautatiekatu 10, 00100 Helsinki",
     },
     contact_details: {
-      name: "John Doe's wife",
+      name: "Eva",
       phone_number: "+358123456789",
       send_tracking_link_sms: false,
     },

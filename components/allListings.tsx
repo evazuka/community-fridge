@@ -1,4 +1,4 @@
-import { Box, Button, Grid, GridItem, Heading, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Skeleton, Stack, useDisclosure, VStack } from "@chakra-ui/react"
+import { Box, Button, Grid, GridItem, Heading, list, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Skeleton, Stack, useDisclosure, VStack } from "@chakra-ui/react"
 import { useSupabaseClient } from "@supabase/auth-helpers-react"
 import { useEffect, useMemo, useState } from "react"
 import { Image } from './image'
@@ -13,6 +13,7 @@ export const AllListings = () => {
 
   useEffect(() => {
     getData()
+    console.log('refreshed')
   }, [refreshToken])
 
   const getData = async () => {
@@ -31,7 +32,8 @@ export const AllListings = () => {
   return <>
     <Box>
       <Heading my='2'>What you can take:</Heading>
-      {listings.map(({ name, description, imageUrl }, key) => <Listing key={key} name={name} description={description} imageUrl={imageUrl} />)}
+      {listings.map(({ id, name, description, imageUrl }, key) =>
+        <Listing key={key} listingId={id} name={name} description={description} imageUrl={imageUrl} onOrder={() => refresh(x => x + 1)} />)}
     </Box>
   </>
 
@@ -41,7 +43,8 @@ function randomIntFromInterval(min: number, max: number) { // min and max includ
   return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
-export const Listing = ({ name, description, imageUrl }: { name: string, description: string, imageUrl: string | undefined }) => {
+export const Listing = ({ listingId, name, description, imageUrl, onOrder }: { listingId: string, name: string, description: string, imageUrl: string | undefined, onOrder: () => void }) => {
+  const supabase = useSupabaseClient()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const router = useRouter()
   const [isLoading, setLoading] = useState(false)
@@ -56,12 +59,29 @@ export const Listing = ({ name, description, imageUrl }: { name: string, descrip
       const response = await fetch('/api', { method: 'POST' })
       const data = await response.json()
       const trackingUrl = data['tracking']['url']
-      window.open(trackingUrl, '_blank');
-      console.log(trackingUrl)
+      window.open(trackingUrl, '_blank')
+      deleteListing(listingId)
+      onOrder()
+      onClose()
     } catch (e) {
       console.error(e)
     } finally {
       setLoading(false)
+    }
+  }
+
+
+  const deleteListing = async (listingId: string) => {
+    try {
+      const { data, error } = await supabase
+        .from('listings')
+        .delete()
+        .eq('id', listingId)
+
+      if (error) throw error
+      console.log(data)
+    } catch (e) {
+      console.error(e)
     }
   }
 

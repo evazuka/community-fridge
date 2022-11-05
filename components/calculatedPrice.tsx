@@ -31,13 +31,13 @@ export const CalculatedPrice = ({ price, onLoaded }: Props) => {
     }
   }
   return <>
-    <p><FontAwesomeIcon icon={faMoneyBill1Wave} style={{marginRight: '12px', width: '20px'}}/>Delivery fee: <Skeleton isLoaded={!loading} display='inline-block'>
+    <div><FontAwesomeIcon icon={faMoneyBill1Wave} style={{ marginRight: '12px', width: '20px' }} />Delivery fee: <Skeleton isLoaded={!loading} display='inline-block'>
       <span><strong style={{ color: "rgb(0, 157, 224)" }}>€{fee}</strong></span>
     </Skeleton>
-    </p>
-    <p><FontAwesomeIcon icon={faPersonBiking} style={{marginRight: '12px', width: '20px'}}/>Delivery in <Skeleton isLoaded={!loading} display='inline-block'>
+    </div>
+    <div><FontAwesomeIcon icon={faPersonBiking} style={{ marginRight: '12px', width: '20px' }} />Delivery in <Skeleton isLoaded={!loading} display='inline-block'>
       <span>{estimate} minutes</span>
-    </Skeleton></p>
+    </Skeleton></div>
   </>
 
 }

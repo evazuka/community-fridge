@@ -12,7 +12,7 @@ const Take = () => {
 
   return (
     <>
-      <NavBar />
+      <NavBar address="Arkadiankatu 3-6 3rd floor, 00100 Helsinki" />
       <Container>
         <div>Hello, {session.user.email}</div>
         <AllListings />
