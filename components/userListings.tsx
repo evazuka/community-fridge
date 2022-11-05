@@ -1,4 +1,4 @@
-import { Box, Collapse, Heading, Table, TableCaption, TableContainer, Tbody, Td, Tfoot, Th, Thead, Tr, useDisclosure } from "@chakra-ui/react"
+import { Box, Collapse, Grid, GridItem, Heading, Table, TableCaption, TableContainer, Tbody, Td, Tfoot, Th, Thead, Tr, useDisclosure } from "@chakra-ui/react"
 import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react"
 import { useCallback, useEffect, useState } from "react"
 import { NewListingForm } from "./newListingForm"
@@ -31,24 +31,42 @@ export const UserListings = () => {
   return <>
     <Box>
       <Heading my='2'>Your listings:</Heading>
-      <NewListing onInsert={() => refresh(i => i + 1)} />
       {listings.map(({ name, description, imageUrl }, key) => <Listing key={key} name={name} description={description} imageUrl={imageUrl} />)}
+      <NewListing onInsert={() => refresh(i => i + 1)} />
     </Box>
   </>
 }
 
 export const Listing = ({ name, description, imageUrl }: { name: string, description: string, imageUrl: string | undefined }) => {
-  return <Box my='4' px='16' py='4' borderWidth='1px' borderRadius='lg'>
-    {imageUrl
-      ? <Image url={imageUrl}  onDownload={() => {}}/>
-      : <img
-        src='https://via.placeholder.com/100?text=?'
-        alt="image"
-        className="image"
-        style={{ height: 100, width: 100 }}
-      />}
-    {name} - {description}
-  </Box>
+
+  return <>
+    <Box my='4' px='2' py='2' className="card">
+      <Grid
+        templateAreas={`"header image"
+                  "description image"`}
+        gridTemplateRows='repeat(2, 1fr)'
+        gridTemplateColumns='1fr minmax(100px, 100px)'
+        h='100px'
+      >
+        <GridItem area={'header'}>
+          <Heading size='md'>{name}</Heading>
+        </GridItem>
+        <GridItem area={'description'} style={{ textOverflow: 'ellipsis', overflow: 'hidden' }}>
+          {description}
+        </GridItem>
+        <GridItem area={'image'} width='100px'>
+          {imageUrl
+            ? <Image url={imageUrl} onDownload={() => {}} />
+            : <img
+              src='https://via.placeholder.com/100?text=?'
+              alt="image"
+              className="image"
+              style={{ height: 100, width: 100 }}
+            />}
+        </GridItem>
+      </Grid>
+    </Box>
+  </>
 }
 
 type Props = {
@@ -64,8 +82,8 @@ export const NewListing = ({ onInsert }: Props) => {
   }, [isOpen, onToggle, onInsert])
 
   return <>
-    <Box px='16' py='4' borderWidth='1px' borderRadius='lg' as='button' onClick={onToggle}>
-      <Heading size='sm'>+ Post new item</Heading>
+    <Box px='16' py='4' borderWidth='1px' borderRadius='lg' as='button' background='#009DE0' onClick={onToggle}>
+      <span><strong style={{ color: "white" }}>+ Post new item</strong></span>
     </Box>
     <Collapse in={isOpen} animateOpacity>
       <NewListingForm onInsert={handleInsert} />
