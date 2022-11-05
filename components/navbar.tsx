@@ -11,9 +11,10 @@ const NavBar = ({ ...props }) => {
       mb={8}
       p={8}
       bg={["primary.500", "primary.500", "transparent", "transparent"]}
+      borderBottom="1px solid"
       {...props}
     >
-      Community Fridge
+      <strong>Community Fridge</strong>
     </Flex>
   )
 }
