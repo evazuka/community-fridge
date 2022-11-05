@@ -24,17 +24,15 @@ const Home = () => {
     }
   }
 
+  if (!session) return <Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} theme="dark" />
+
   return (
     <div className="container" style={{ padding: '50px 0 100px 0' }}>
-      {!session ? (
-        <Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} theme="dark" />
-      ) : (
-        <>
-          <div>Hello, {session.user.email}</div>
-          <div>{data.map(x => JSON.stringify(x)).join('')}</div>
-          <div><UploadImage url={null} /></div>
-        </>
-      )}
+      <>
+        <div>Hello, {session.user.email}</div>
+        <div>{data.map(x => JSON.stringify(x)).join('')}</div>
+        <div><UploadImage url={null} /></div>
+      </>
     </div>
   )
 }
