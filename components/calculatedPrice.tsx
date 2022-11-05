@@ -1,5 +1,7 @@
 import { Badge, Skeleton } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPersonBiking, faMoneyBill1Wave } from '@fortawesome/free-solid-svg-icons'
 
 type Props = {
   price: number
@@ -29,11 +31,11 @@ export const CalculatedPrice = ({ price, onLoaded }: Props) => {
     }
   }
   return <>
-    <p>Delivery fee: <Skeleton isLoaded={!loading} display='inline-block'>
+    <p><FontAwesomeIcon icon={faMoneyBill1Wave} style={{marginRight: '12px', width: '20px'}}/>Delivery fee: <Skeleton isLoaded={!loading} display='inline-block'>
       <span><strong style={{ color: "rgb(0, 157, 224)" }}>€{fee}</strong></span>
     </Skeleton>
     </p>
-    <p>Delivery in <Skeleton isLoaded={!loading} display='inline-block'>
+    <p><FontAwesomeIcon icon={faPersonBiking} style={{marginRight: '12px', width: '20px'}}/>Delivery in <Skeleton isLoaded={!loading} display='inline-block'>
       <span>{estimate} minutes</span>
     </Skeleton></p>
   </>
