@@ -1,6 +1,9 @@
+import { Container } from "@chakra-ui/react"
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react"
 import { Auth, ThemeSupa } from "@supabase/auth-ui-react"
+import NavBar from "../components/navbar"
 import { UploadImage } from "../components/uploadImage"
+import UserListings from "../components/userListings"
 
 const Share = () => {
   const session = useSession()
@@ -9,12 +12,14 @@ const Share = () => {
   if (!session) return <Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} theme="dark" />
 
   return (
-    <div className="container" style={{ padding: '50px 0 100px 0' }}>
-      <>
+    <>
+      <NavBar />
+      <Container>
         <div>Hello, {session.user.email}</div>
         <div><UploadImage url={null} /></div>
-      </>
-    </div>
+        <UserListings />
+      </Container>
+    </>
   )
 }
 
