@@ -14,7 +14,6 @@ const Take = () => {
     <>
       <NavBar />
       <Container>
-        <div>Hello, {session.user.email}</div>
         <AllListings />
       </Container>
     </>
