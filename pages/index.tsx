@@ -1,10 +1,12 @@
 import { Auth, ThemeSupa } from '@supabase/auth-ui-react'
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 import { useEffect, useState } from 'react'
-import { Heading, Container, VStack } from '@chakra-ui/react'
+import { Heading, Container, VStack, Flex, Box, Spacer, useRadio } from '@chakra-ui/react'
 import NavBar from '../components/navbar'
+import { useRouter } from 'next/router'
 
 const Home = () => {
+  const router = useRouter()
   const session = useSession()
   const supabase = useSupabaseClient()
   const [data, setData] = useState<any[]>([])
@@ -33,7 +35,15 @@ const Home = () => {
       <Container>
         <VStack spacing='24px' mt='12px'>
           <Heading>Hello, {session.user.email}</Heading>
-          <div>{data.map(x => JSON.stringify(x)).join('')}</div>
+          <Flex>
+            <Box m='4' p='16' borderWidth='1px' borderRadius='lg' cursor='pointer' onClick={() => router.push('/share')}>
+              <Heading size='sm'>Share</Heading>
+            </Box>
+            <Spacer />
+            <Box m='4' p='16' borderWidth='1px' borderRadius='lg' cursor='pointer' onClick={() => router.push('/take')}>
+              <Heading size='sm'>Take</Heading>
+            </Box>
+          </Flex>
         </VStack>
       </Container>
     </>
