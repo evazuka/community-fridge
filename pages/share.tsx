@@ -16,7 +16,6 @@ const Share = () => {
       <NavBar />
       <Container>
         <div>Hello, {session.user.email}</div>
-        <div><UploadImage url={null} /></div>
         <UserListings />
       </Container>
     </>

@@ -5,8 +5,6 @@ type Props = {
   url: string | null
 }
 
-const urlPrefix = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/images/`
-
 export const Image = ({ url }: Props) => {
   const supabase = useSupabaseClient()
 

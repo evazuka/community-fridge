@@ -1,20 +1,21 @@
 import { useSupabaseClient } from "@supabase/auth-helpers-react"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { v4 as uuidv4 } from 'uuid'
 import { Image } from './image'
 
 type Props = {
-  url: string | null
+  onUpload: (imageUrl: string) => void
 }
 
-export const UploadImage = ({ url }: Props) => {
+export const UploadImage = ({ onUpload }: Props) => {
   const supabase = useSupabaseClient()
 
   const [uploading, setUploading] = useState(false)
   const [id, setId] = useState<string | null>(null)
   const [imageUrl, setImageUrl] = useState<string | null>(null)
 
-  const uploadAvatar: React.ChangeEventHandler<HTMLInputElement> = async (event) => {
+  const uploadAvatar: React.ChangeEventHandler<HTMLInputElement> = useCallback(async (event) => {
+    console.log(onUpload)
     try {
       setUploading(true)
 
@@ -34,8 +35,8 @@ export const UploadImage = ({ url }: Props) => {
       if (uploadError) {
         throw uploadError
       }
+      onUpload(filePath)
 
-      //onUpload(filePath)
       setId(id)
       setImageUrl(fileName)
       console.log(fileName)
@@ -45,7 +46,7 @@ export const UploadImage = ({ url }: Props) => {
     } finally {
       setUploading(false)
     }
-  }
+  }, [setId, setImageUrl, onUpload, supabase.storage])
 
   return <>
     <div>
