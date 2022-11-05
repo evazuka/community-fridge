@@ -14,7 +14,7 @@ const Share = () => {
 
   return (
     <>
-      <NavBar />
+      <NavBar address="Otakaari 24, 02150 Espoo" />
       <Container>
         <UserListings />
       </Container>
