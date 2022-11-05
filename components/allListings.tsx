@@ -16,7 +16,7 @@ export const AllListings = () => {
         try {
             const { data, error } = await supabase
                 .from('listings')
-                .select('id, name, description')
+                .select('id, name, description, imageUrl')
             if (error) throw error
             setListings(data!)
             console.log(data)
@@ -35,6 +35,13 @@ export const AllListings = () => {
 }
 
 export const Listing = ({ name, description, imageUrl }: { name: string, description: string, imageUrl: string | undefined }) => {
+
+    const fetchData = async () => {
+        const response = await fetch('/api')
+        const data = await response.json()
+        console.log(data)
+    }
+
     return <Box my='4' px='16' py='4' borderWidth='1px' borderRadius='lg'>
         <Grid
             templateAreas={`"header image"
@@ -61,7 +68,7 @@ export const Listing = ({ name, description, imageUrl }: { name: string, descrip
                     />}
             </GridItem>
             <GridItem area={'button'}>
-                <Button>want this!</Button>
+                <Button onClick={fetchData}>want this!</Button>
             </GridItem>
         </Grid>
     </Box>

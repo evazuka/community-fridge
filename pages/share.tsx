@@ -1,6 +1,7 @@
 import { Container } from "@chakra-ui/react"
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react"
 import { Auth, ThemeSupa } from "@supabase/auth-ui-react"
+import { useEffect } from "react"
 import NavBar from "../components/navbar"
 import { UploadImage } from "../components/uploadImage"
 import UserListings from "../components/userListings"
