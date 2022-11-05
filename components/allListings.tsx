@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react"
 import { Image } from './image'
 import NextImage from 'next/image'
 import CalculatedPrice from "./calculatedPrice"
+import { useRouter } from "next/router"
 
 export const AllListings = () => {
   const supabase = useSupabaseClient()
@@ -42,6 +43,7 @@ function randomIntFromInterval(min: number, max: number) { // min and max includ
 
 export const Listing = ({ name, description, imageUrl }: { name: string, description: string, imageUrl: string | undefined }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const router = useRouter()
   const [isLoading, setLoading] = useState(false)
   const [priceLoading, setPriceLoading] = useState(true)
   const [imagePath, setImagePath] = useState<string | null>(null)
@@ -54,6 +56,7 @@ export const Listing = ({ name, description, imageUrl }: { name: string, descrip
       const response = await fetch('/api', { method: 'POST' })
       const data = await response.json()
       const trackingUrl = data['tracking']['url']
+      window.open(trackingUrl, '_blank');
       console.log(trackingUrl)
     } catch (e) {
       console.error(e)
@@ -78,7 +81,7 @@ export const Listing = ({ name, description, imageUrl }: { name: string, descrip
         <GridItem area={'header'}>
           <Heading size='md'>{name}</Heading>
         </GridItem>
-        <GridItem area={'description'} style={{ textOverflow: 'ellipsis', wordWrap: 'break-word' }}>
+        <GridItem area={'description'} style={{ textOverflow: 'ellipsis', overflow: 'hidden' }}>
           {description}
         </GridItem>
         <GridItem area={'image'} width='100px'>
