@@ -2,7 +2,11 @@ import { Box, Button, Input, Textarea, VStack } from "@chakra-ui/react"
 import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react"
 import { useState } from "react"
 
-export const NewListingForm = () => {
+type Props = {
+  onInsert: () => void
+}
+
+export const NewListingForm = ({ onInsert }: Props) => {
   const supabase = useSupabaseClient()
   const user = useUser()
   const [loading, setLoading] = useState<boolean>(false)
@@ -16,12 +20,14 @@ export const NewListingForm = () => {
 
       const inserts = {
         name,
-        description
+        description,
+        seller: user.id
       }
 
       let { data, error } = await supabase.from('listings').insert(inserts)
       if (error) throw error
       setLoading(false)
+      onInsert()
     } catch (e) {
 
     }
