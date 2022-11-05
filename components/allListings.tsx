@@ -78,7 +78,7 @@ export const Listing = ({ name, description, imageUrl }: { name: string, descrip
         <GridItem area={'header'}>
           <Heading size='md'>{name}</Heading>
         </GridItem>
-        <GridItem area={'description'}>
+        <GridItem area={'description'} style={{ textOverflow: 'ellipsis', wordWrap: 'break-word' }}>
           {description}
         </GridItem>
         <GridItem area={'image'} width='100px'>

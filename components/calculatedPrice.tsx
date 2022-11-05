@@ -9,6 +9,7 @@ type Props = {
 export const CalculatedPrice = ({ price, onLoaded }: Props) => {
   const [loading, setLoading] = useState(true)
   const [fee, setFee] = useState(0)
+  const [estimate, setEstimate] = useState('')
 
   useEffect(() => {
     getFee()
@@ -19,6 +20,7 @@ export const CalculatedPrice = ({ price, onLoaded }: Props) => {
       const response = await fetch('/api', { method: 'GET' })
       const data = await response.json()
       setFee(price)
+      setEstimate(data['time_estimate_minutes'])
       onLoaded()
     } catch (e) {
       console.error(e)
@@ -27,9 +29,12 @@ export const CalculatedPrice = ({ price, onLoaded }: Props) => {
     }
   }
   return <>
-    <p></p>
     <p>Delivery fee: <Skeleton isLoaded={!loading} display='inline-block'>
       <span><strong style={{ color: "rgb(0, 157, 224)" }}>€{fee}</strong></span>
+    </Skeleton>
+    </p>
+    <p>Delivery in <Skeleton isLoaded={!loading} display='inline-block'>
+      <span>{estimate} minutes</span>
     </Skeleton></p>
   </>
 
