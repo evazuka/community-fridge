@@ -50,16 +50,7 @@ export const Image = ({ url, onDownload, clickable = false }: Props) => {
     width={100}
     height={100}
     style={{ maxHeight: 100, objectFit: 'cover' }}
-    onClick={() => clickable && onOpen()}
   />
-    <Modal blockScrollOnMount={false} isOpen={isOpen} onClose={onClose} size='xl'>
-      <ModalOverlay />
-      <ModalContent height='75%' background='transparent' boxShadow='none' onClick={onClose}>
-        <ModalBody>
-          <NextImage src={imageUrl!} alt='image' fill style={{ objectFit: 'contain' }} />
-        </ModalBody>
-      </ModalContent>
-    </Modal>
   </>
 }
 
